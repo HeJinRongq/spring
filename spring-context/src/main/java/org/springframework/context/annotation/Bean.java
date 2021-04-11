@@ -219,7 +219,7 @@ import org.springframework.core.annotation.AliasFor;
 public @interface Bean {
 
 	/**
-	 * Alias for {@link #name}.
+	 * Alias for {@link #name}. 给bean重命名
 	 * <p>Intended to be used when no other attributes are needed, for example:
 	 * {@code @Bean("customBeanName")}.
 	 * @since 4.3.3

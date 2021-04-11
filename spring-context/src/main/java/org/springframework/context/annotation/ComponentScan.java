@@ -122,12 +122,14 @@ public @interface ComponentScan {
 	String resourcePattern() default ClassPathScanningCandidateComponentProvider.DEFAULT_RESOURCE_PATTERN;
 
 	/**
+	 * 扫描包时是否使用默认过滤规则 默认是true
 	 * Indicates whether automatic detection of classes annotated with {@code @Component}
 	 * {@code @Repository}, {@code @Service}, or {@code @Controller} should be enabled.
 	 */
 	boolean useDefaultFilters() default true;
 
 	/**
+	 * 扫描包时 只包含哪些
 	 * Specifies which types are eligible for component scanning.
 	 * <p>Further narrows the set of candidate components from everything in {@link #basePackages}
 	 * to everything in the base packages that matches the given filter or filters.
@@ -140,6 +142,7 @@ public @interface ComponentScan {
 	Filter[] includeFilters() default {};
 
 	/**
+	 * 扫描包时，不扫描哪些
 	 * Specifies which types are not eligible for component scanning.
 	 * @see #resourcePattern
 	 */

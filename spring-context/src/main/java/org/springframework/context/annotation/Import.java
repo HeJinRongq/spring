@@ -56,6 +56,7 @@ import java.lang.annotation.Target;
 public @interface Import {
 
 	/**
+	 * 支持导入多个，以数组的形式传入， 也支持ImportBeanDefinitionRegistrar 手动注册bean的方式导入bean
 	 * {@link Configuration @Configuration}, {@link ImportSelector},
 	 * {@link ImportBeanDefinitionRegistrar}, or regular component classes to import.
 	 */

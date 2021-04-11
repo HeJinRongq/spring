@@ -51,6 +51,7 @@ import org.springframework.util.StringValueResolver;
 public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, SingletonBeanRegistry {
 
 	/**
+	 * 单例模式
 	 * Scope identifier for the standard singleton scope: {@value}.
 	 * <p>Custom scopes can be added via {@code registerScope}.
 	 * @see #registerScope
@@ -58,6 +59,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	String SCOPE_SINGLETON = "singleton";
 
 	/**
+	 * 多实例
 	 * Scope identifier for the standard prototype scope: {@value}.
 	 * <p>Custom scopes can be added via {@code registerScope}.
 	 * @see #registerScope

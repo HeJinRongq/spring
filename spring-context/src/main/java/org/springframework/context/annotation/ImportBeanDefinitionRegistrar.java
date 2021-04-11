@@ -61,6 +61,7 @@ import org.springframework.core.type.AnnotationMetadata;
 public interface ImportBeanDefinitionRegistrar {
 
 	/**
+	 * 手动注册bean 并且导入到容器中
 	 * Register bean definitions as necessary based on the given annotation metadata of
 	 * the importing {@code @Configuration} class.
 	 * <p>Note that {@link BeanDefinitionRegistryPostProcessor} types may <em>not</em> be

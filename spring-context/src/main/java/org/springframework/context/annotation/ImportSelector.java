@@ -61,6 +61,7 @@ import org.springframework.lang.Nullable;
 public interface ImportSelector {
 
 	/**
+	 * 这个就是传入一个String数组，次数组中每个元素是需要导入的类的全类名，然后这些类就会被导入到容器中
 	 * Select and return the names of which class(es) should be imported based on
 	 * the {@link AnnotationMetadata} of the importing @{@link Configuration} class.
 	 * @return the class names, or an empty array if none
@@ -68,6 +69,7 @@ public interface ImportSelector {
 	String[] selectImports(AnnotationMetadata importingClassMetadata);
 
 	/**
+	 * 此方法为过滤selectImports返回的需要导入的全类名数组 当返回true，将过滤，false则不过滤
 	 * Return a predicate for excluding classes from the import candidates, to be
 	 * transitively applied to all classes found through this selector's imports.
 	 * <p>If this predicate returns {@code true} for a given fully-qualified
