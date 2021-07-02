@@ -3,6 +3,7 @@ package com.springtest.config;
 import com.springtest.entity.Car;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.*;
 
@@ -54,12 +55,33 @@ import javax.annotation.Resource;
  *  3.可用来获取属性文件中配置的值  前提是需要导入属性文件 一种方式是在配置文件中导入  一种是在配置类上加@PropertySource(配置文件路径)
  *    然后注值时使用@Value("${xxx}")
  *
+ * 自动装配：
+ * 1.@Autowired 自动装配（DI） 支持在方法，构造器，参数，属性上标注 a. 标注在set方法上，会自动调用该方法进行赋值  b.标在有参构造方法上，进行赋值，如果组件只有一个有参构造器，可以省略该注解，Spring也能自动装配 c.放在参数位置，效果一样
+ * 		1.默认会优先根据类型去寻找容器中对应的组件，application.getBean(xxx.class); 中的 xxx.class 类型去匹配
+ * 		2.如有找到多个相同类型的组件，那么会继续使用属性名作为ID去容器中查找 application.getBean(“xxx”); 中的"xxx" bean名称查找
+ * 		@Qualifier("xxx") 指定具体的组件的ID，而不会默认使用属性名
+ * 		3.注意的是 自动装配 默认一定要将属性赋值好， 不然在装配时会报错
+ * 		4. 要让第三点不报错 只需要在@Autowired中指定required=false  默认是为true的  e.g:@Autowired(required=false)
+ *		5.如找到多个相同类型的组件，让Spring自动装配的时候，默认使用首选的bean  只需要在那个bean组件上加上@Primary 此注解即可，
+ *		然后需要获取其他相同类型bean时，可配合@Qualifier("xxx")注解 来装配
+ * 2.@Resource和@Inject [java规范中的注解] 也支持Spring 的自动装配
+ * 		1.@Resource 是默认是按照组件的名称进行查找装配的，若是想装配自定的bean 可增加 name=“xxx”， 如 @Resource(name=“xxx”)
+ * 			与@Autowired 不同在于 不能指定默认首选装配的bean（即@Primary），不支持非必须装配到bean的情况（即@Autowired（required=false）），
+ *		2.@Inject 基本与 @Autowired 一样，但是 不支持非必须装配到bean的情况（即@Autowired（required=false）），
+ *
+ *
+ * 3.自定义组件想要使用Spring容器底层的一些组件，（如 ApplicationContext， BeanFactory等）
+ * 		只需要在自定义组件中实现 xxxAware接口，会调用接口规定的方法注入相关组件
+ * 		xxxAware的功能 是使用 xxxAwareProcessor 来处理的
  */
-@PropertySource(value = "classpath:/bean.xml")
-@ComponentScan("com.springtest.entity")
-@Configuration
+//@PropertySource(value = "classpath:/bean.xml")
+//@ComponentScan("com.springtest.entity")
+//@Configuration
+
+
 public class MainConfigOfLifeCycle {
 
+	@Primary
 	//设置初始化方法与销毁方法
 	@Bean(initMethod = "init",destroyMethod = "destroy")
 	public Car car(){

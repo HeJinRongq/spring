@@ -3,6 +3,7 @@ package com.springtest;
 import com.springtest.config.MainConfig;
 import com.springtest.config.MainConfig2;
 import com.springtest.config.MainConfigOfLifeCycle;
+import com.springtest.config.MainConfigProfile;
 import com.springtest.entity.Blue;
 import com.springtest.entity.Green;
 import com.springtest.entity.Person;
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 
+import javax.sql.DataSource;
 import java.util.Map;
 
 public class JTest {
@@ -82,6 +84,27 @@ public class JTest {
 		//创建IOC容器
 		AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(MainConfigOfLifeCycle.class);
 		System.out.println("容器创建完成....");
+		applicationContext.close();
+	}
+
+	/**
+	 * @Profile 注解测试
+	 */
+	@Test
+	public void test_profile(){
+		// 1.使用启动命令的方式：-Dspring.profiles.active=环境标识  spring就会注册对应标识的bean
+		//创建IOC容器 要采用无参构造器
+		AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
+		//设置好要激活的环境，传入从@Profile注解传进来的环境标识，支持多个 "testDataSource","devDataSource"
+		applicationContext.getEnvironment().setActiveProfiles("testDataSource");
+		//注册@Profile注解下对应标识的数据源
+		applicationContext.register(MainConfigProfile.class);
+		//刷新容器
+		applicationContext.refresh();
+		String[] beanNamesForType = applicationContext.getBeanNamesForType(DataSource.class);
+		for (String dataName : beanNamesForType) {
+			System.out.println(dataName);
+		}
 		applicationContext.close();
 	}
 
