@@ -93,6 +93,7 @@ public @interface Transactional {
 	String transactionManager() default "";
 
 	/**
+	 * 事务的传播类型
 	 * The transaction propagation type.
 	 * <p>Defaults to {@link Propagation#REQUIRED}.
 	 * @see org.springframework.transaction.interceptor.TransactionAttribute#getPropagationBehavior()
@@ -100,6 +101,7 @@ public @interface Transactional {
 	Propagation propagation() default Propagation.REQUIRED;
 
 	/**
+	 * 事务隔离级别
 	 * The transaction isolation level.
 	 * <p>Defaults to {@link Isolation#DEFAULT}.
 	 * <p>Exclusively designed for use with {@link Propagation#REQUIRED} or
@@ -114,6 +116,7 @@ public @interface Transactional {
 	Isolation isolation() default Isolation.DEFAULT;
 
 	/**
+	 * 事务超时时间
 	 * The timeout for this transaction (in seconds).
 	 * <p>Defaults to the default timeout of the underlying transaction system.
 	 * <p>Exclusively designed for use with {@link Propagation#REQUIRED} or
@@ -124,6 +127,7 @@ public @interface Transactional {
 	int timeout() default TransactionDefinition.TIMEOUT_DEFAULT;
 
 	/**
+	 * 是否只读
 	 * A boolean flag that can be set to {@code true} if the transaction is
 	 * effectively read-only, allowing for corresponding optimizations at runtime.
 	 * <p>Defaults to {@code false}.
