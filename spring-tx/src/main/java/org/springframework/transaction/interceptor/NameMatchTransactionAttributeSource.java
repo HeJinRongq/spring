@@ -107,6 +107,7 @@ public class NameMatchTransactionAttributeSource implements TransactionAttribute
 
 		// Look for direct name match.
 		String methodName = method.getName();
+		// 通过方法名获取 事务属性
 		TransactionAttribute attr = this.nameMap.get(methodName);
 
 		if (attr == null) {

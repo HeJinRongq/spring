@@ -11,6 +11,8 @@ public interface UserService {
 
 	void insertUser() throws NullPointerException;
 
+	void insertUser2() throws NullPointerException;
+
 	void updateUser() throws NullPointerException;
 
 }

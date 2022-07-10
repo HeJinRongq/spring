@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.sql.SQLException;
 
-@EnableTransactionManagement
 public class testMain {
 	public static void main(String[] args) throws Exception {
 		//根据配置文件获取bean
@@ -30,6 +29,7 @@ public class testMain {
 			System.out.println(beanName);
 		}
 		System.out.println(beanNamesForType);*/
+
 		UserService userService = (UserService) applicationContext.getBean("userService");
 		System.out.println(userService);
 		userService.insertUser();

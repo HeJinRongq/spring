@@ -5,11 +5,13 @@ import com.springtest.entity.Person;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
-import java.beans.PropertyVetoException;
 
 /**
  * @author HeJinRong
@@ -17,6 +19,7 @@ import java.beans.PropertyVetoException;
 @Configuration
 //扫描包
 @ComponentScan("com.springtest")
+@EnableTransactionManagement
 public class MainConfig {
 
 	//默认方法名作为在容器中的id
@@ -26,22 +29,29 @@ public class MainConfig {
 	}
 
 	@Bean
-	public DataSource getDataSource() throws PropertyVetoException {
+	public DataSource dataSource() {
 		// 获取ComboPooledDataSource 对象
-		ComboPooledDataSource dataSource = new ComboPooledDataSource();
+		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		// 设置 driver，url，pass，user
-		dataSource.setDriverClass("com.mysql.jdbc.Driver");  // 设置Driver有异常（已抛出）
-		dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/jeesite?serverTimezone=UTC&useSSL=false");
+		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+		dataSource.setUrl("jdbc:mysql://localhost:3306/jeesite?serverTimezone=UTC&useSSL=false");
+		dataSource.setUsername("root");
 		dataSource.setPassword("123456");
-		dataSource.setUser("root");
 		// 返回一个DataSource数据源
 		return dataSource;
 	}
 
-	@Bean("dataSourceTransactionManager")
-	public DataSourceTransactionManager dataSourceTransactionManager(DataSource dataSource){
-		DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager(dataSource);
-		return dataSourceTransactionManager;
+	@Bean
+	public JdbcTemplate getJdbcTemplate(DataSource dataSource){
+		return new JdbcTemplate(dataSource);
+	}
+
+
+	@Bean
+	public PlatformTransactionManager transactionManager(DataSource dataSource){
+		DataSourceTransactionManager transactionManager = new DataSourceTransactionManager();
+		transactionManager.setDataSource(dataSource);
+		return transactionManager;
 	}
 
 }
